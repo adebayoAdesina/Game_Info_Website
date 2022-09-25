@@ -4,6 +4,7 @@ import Game from "../Components/game";
 import { gamesAction } from "../store/actions/gamesAction";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import Gamedetail from "../Components/gameDetail";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -12,13 +13,22 @@ const Home = () => {
     dispatch(gamesAction());
   }, [dispatch]);
 
-  const { upComing} = useSelector((state) => state.game);
+  const { upComing, popular, newGames} = useSelector((state) => state.game);
 
   return (
     <GameList>
+      <Gamedetail/>
       <h2>Upcoming Games</h2>
       <Games>
         {upComing.map((game, i)=> (<Game game={game} key={i}/>))}
+      </Games>
+      <h2>Popular Games</h2>
+      <Games>
+        {popular.map((game, i)=> (<Game game={game} key={i}/>))}
+      </Games>
+      <h2>New Games</h2>
+      <Games>
+        {newGames.map((game, i)=> (<Game game={game} key={i}/>))}
       </Games>
     </GameList>
   );
