@@ -5,8 +5,13 @@ import { gamesAction } from "../store/actions/gamesAction";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import Gamedetail from "../Components/gameDetail";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
+  const location = useLocation();
+  const pathId =location.pathname.split('/')[2];
+
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,7 +22,7 @@ const Home = () => {
 
   return (
     <GameList>
-      <Gamedetail/>
+      {pathId && <Gamedetail/>} 
       <h2>Upcoming Games</h2>
       <Games>
         {upComing.map((game, i)=> (<Game game={game} key={i}/>))}
