@@ -2,39 +2,58 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { smallImage } from "../util";
 
 const Gamedetail = () => {
-  const { screen, game } = useSelector((state) => state.detail);
+  const navigation = useNavigate();
+  const { screen, game, isLoading } = useSelector((state) => state.detail);
+  const exitDetail = (e) => {
+    const element = e.target;
+    if (element.classList.contains("shadow")) {
+      document.body.style.overflow = "auto";
+      navigation("/");
+    }
+  };
+
   return (
-    <CardShadow>
-      <Detail>
-        <Stats>
-          <div className="rating">
-            <h3>{game.name}</h3>
-            <p>Rating: {game.rating}</p>
-          </div>
-          <Info>
-            <h3>Platforms</h3>
-            <Platforms>
-              {game.platforms.map((data) => (
-                <h3 key={data.platform.id}>{data.platform.name}</h3>
+    <>
+      {!isLoading && (
+        <CardShadow onClick={exitDetail} className="shadow">
+          <Detail>
+            <Stats>
+              <div className="rating">
+                <h3>{game.name}</h3>
+                <p>Rating: {game.rating}</p>
+              </div>
+              <Info>
+                <h3>Platforms</h3>
+                <Platforms>
+                  {game.platforms.map((data) => (
+                    <h3 key={data.platform.id}>{data.platform.name}</h3>
+                  ))}
+                </Platforms>
+              </Info>
+            </Stats>
+            <Media>
+              <img src={smallImage(game.background_image, 1280)} alt="" />
+            </Media>
+            <Description>
+              <p>{game.description_raw}</p>
+            </Description>
+            <div className="gallery">
+              {screen.results.map((screen) => (
+                <img
+                  src={smallImage(screen.image, 1280)}
+                  key={screen.id}
+                  alt="game"
+                />
               ))}
-            </Platforms>
-          </Info>
-        </Stats>
-        <Media>
-          <img src={game.background_image} alt="" />
-        </Media>
-        <Description>
-          <p>{game.description_raw}</p>
-        </Description>
-        <div className="gallery">
-          {screen.results.map((screen) => (
-            <img src={screen.image} key={screen.id} alt="game" />
-          ))}
-        </div>
-      </Detail>
-    </CardShadow>
+            </div>
+          </Detail>
+        </CardShadow>
+      )}
+    </>
   );
 };
 
@@ -88,18 +107,17 @@ const Platforms = styled(motion.div)`
   }
 `;
 
-const Media =styled(motion.div)`
+const Media = styled(motion.div)`
   margin-top: 5rem;
-  img{
+  img {
     width: 100%;
     height: 60vh;
     object-fit: cover;
   }
-`
+`;
 
 const Description = styled(motion.div)`
   margin: 5rem 0rem;
-`
-
+`;
 
 export default Gamedetail;

@@ -4,11 +4,13 @@ import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import Detailaction from "../store/actions/detailAction";
 import { Link } from "react-router-dom";
+import { smallImage } from "../util";
 
 const Game = ({ game }) => {
   const { name, background_image, released, id } = game;
   const dispatch = useDispatch();
   const loadDetail = () => {
+    document.body.style.overflow = "hidden";
     dispatch(Detailaction(id));
   };
 
@@ -17,7 +19,7 @@ const Game = ({ game }) => {
       <Link to={`/game/${id}`}>
         <h3>{name}</h3>
         <p>{released}</p>
-        <img src={background_image} alt={name} />
+        <img src={smallImage(background_image, 640 )} alt={name} />
       </Link>
     </StyledGame>
   );
@@ -29,6 +31,7 @@ const StyledGame = styled(motion.div)`
   text-align: center;
   border-radius: 1rem;
   cursor: pointer;
+  overflow: hidden;
   img {
     width: 100%;
     height: 40vh;
