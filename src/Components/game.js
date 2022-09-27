@@ -8,6 +8,7 @@ import { smallImage } from "../util";
 
 const Game = ({ game }) => {
   const { name, background_image, released, id } = game;
+  const stringPathId = id.toString();
   const dispatch = useDispatch();
   const loadDetail = () => {
     document.body.style.overflow = "hidden";
@@ -15,11 +16,11 @@ const Game = ({ game }) => {
   };
 
   return (
-    <StyledGame onClick={loadDetail}>
+    <StyledGame onClick={loadDetail} layoutId={stringPathId}>
       <Link to={`/game/${id}`}>
-        <h3>{name}</h3>
+        <motion.h3 layoutId={`title ${stringPathId}`}>{name}</motion.h3>
         <p>{released}</p>
-        <img src={smallImage(background_image, 640 )} alt={name} />
+        <motion.img layoutId={`image ${stringPathId}`} src={smallImage(background_image, 640 )} alt={name} />
       </Link>
     </StyledGame>
   );

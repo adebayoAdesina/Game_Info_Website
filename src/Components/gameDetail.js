@@ -4,8 +4,14 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { smallImage } from "../util";
+import playStation from "../img/playstation.svg";
+import steam from "../img/steam.svg";
+import xbox from "../img/xbox.svg";
+import nintendo from "../img/nintendo.svg";
+import apple from "../img/apple.svg";
+import gamepad from "../img/gamepad.svg";
 
-const Gamedetail = () => {
+const Gamedetail = ({ pathId }) => {
   const navigation = useNavigate();
   const { screen, game, isLoading } = useSelector((state) => state.detail);
   const exitDetail = (e) => {
@@ -16,27 +22,54 @@ const Gamedetail = () => {
     }
   };
 
+  //platform images
+  const getPlatform = (e) => {
+    switch (e) {
+      case "Playstation 4":
+        return playStation;
+      case "Xbox One":
+        return xbox;
+      case "PC":
+        return steam;
+      case "Nintendo":
+        return nintendo;
+      case "iOS":
+        return apple;
+
+      default:
+        return gamepad;
+    }
+  };
+
   return (
     <>
       {!isLoading && (
         <CardShadow onClick={exitDetail} className="shadow">
-          <Detail>
+          <Detail layoutId={pathId}>
             <Stats>
               <div className="rating">
-                <h3>{game.name}</h3>
+                <motion.h3 layoutId={`title ${pathId}`}>{game.name}</motion.h3>
                 <p>Rating: {game.rating}</p>
               </div>
               <Info>
                 <h3>Platforms</h3>
                 <Platforms>
                   {game.platforms.map((data) => (
-                    <h3 key={data.platform.id}>{data.platform.name}</h3>
+                    <img
+                      key={data.platform.id}
+                      src={getPlatform(data.platform.name)}
+                      alt={data.platform.name}
+                    />
                   ))}
                 </Platforms>
               </Info>
             </Stats>
             <Media>
-              <img src={smallImage(game.background_image, 1280)} alt="" />
+              <motion.img
+                layoutId={`image ${pathId}`}
+                src={smallImage(game.background_image, 1280)}
+                alt=""
+              />
             </Media>
             <Description>
               <p>{game.description_raw}</p>
