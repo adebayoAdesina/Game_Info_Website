@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import Detailaction from "../store/actions/detailAction";
 import { Link } from "react-router-dom";
 import { smallImage } from "../util";
+import { popup } from "../Styled/animation";
 
 const Game = ({ game }) => {
   const { name, background_image, released, id } = game;
@@ -16,11 +17,21 @@ const Game = ({ game }) => {
   };
 
   return (
-    <StyledGame onClick={loadDetail} layoutId={stringPathId}>
+    <StyledGame
+      onClick={loadDetail}
+      layoutId={stringPathId}
+      variants={popup}
+      initial="hidden"
+      animate="show"
+    >
       <Link to={`/game/${id}`}>
         <motion.h3 layoutId={`title ${stringPathId}`}>{name}</motion.h3>
         <p>{released}</p>
-        <motion.img layoutId={`image ${stringPathId}`} src={smallImage(background_image, 640 )} alt={name} />
+        <motion.img
+          layoutId={`image ${stringPathId}`}
+          src={smallImage(background_image, 640)}
+          alt={name}
+        />
       </Link>
     </StyledGame>
   );
